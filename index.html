@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>Kita Bücher-System</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f6f8;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background: #4CAF50;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    font-size: 24px;
+}
+
+.container {
+    padding: 20px;
+    max-width: 1000px;
+    margin: auto;
+}
+
+input, select {
+    padding: 10px;
+    margin: 10px 5px 10px 0;
+    width: 250px;
+}
+
+.book {
+    background: white;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.category-Herbst { border-left: 6px solid orange; }
+.category-Winter { border-left: 6px solid blue; }
+.category-Frühling { border-left: 6px solid green; }
+.category-Sommer { border-left: 6px solid yellow; }
+.category-Tiere { border-left: 6px solid brown; }
+.category-Religion { border-left: 6px solid purple; }
+
+.status-Yes { color: green; font-weight: bold; }
+.status-No { color: red; font-weight: bold; }
+
+</style>
+</head>
+
+<body>
+
+<header>📚 Kita Bücher-System</header>
+
+<div class="container">
+
+<input type="text" id="searchInput" placeholder="Titel suchen...">
+<select id="categoryFilter">
+    <option value="">Alle Kategorien</option>
+    <option value="Herbst">Herbst</option>
+    <option value="Winter">Winter</option>
+    <option value="Frühling">Frühling</option>
+    <option value="Sommer">Sommer</option>
+    <option value="Tiere">Tiere</option>
+    <option value="Religion">Religion</option>
+</select>
+
+<div id="bookList"></div>
+
+</div>
+
+<script>
+
+const books = [
+    {nummer:"H-01", titel:"Der kleine Igel und die große Kuscheldecke", kategorie:"Herbst", verfuegbar:true},
+    {nummer:"W-01", titel:"Weihnachten im Wald", kategorie:"Winter", verfuegbar:true},
+    {nummer:"T-01", titel:"Die Tiere im Zoo", kategorie:"Tiere", verfuegbar:false}
+];
+
+function displayBooks() {
+    const search = document.getElementById("searchInput").value.toLowerCase();
+    const filter = document.getElementById("categoryFilter").value;
+    const bookList = document.getElementById("bookList");
+    bookList.innerHTML = "";
+
+    const filteredBooks = books.filter(book => 
+        book.titel.toLowerCase().includes(search) &&
+        (filter === "" || book.kategorie === filter)
+    );
+
+    filteredBooks.forEach(book => {
+        const div = document.createElement("div");
+        div.className = "book category-" + book.kategorie;
+        div.innerHTML = `
+            <strong>${book.titel}</strong><br>
+            Nummer: ${book.nummer}<br>
+            Kategorie: ${book.kategorie}<br>
+            Status: <span class="status-${book.verfuegbar ? "Yes" : "No"}">
+            ${book.verfuegbar ? "Verfügbar" : "Ausgeliehen"}
+            </span>
+        `;
+        bookList.appendChild(div);
+    });
+}
+
+document.getElementById("searchInput").addEventListener("input", displayBooks);
+document.getElementById("categoryFilter").addEventListener("change", displayBooks);
+
+displayBooks();
+
+</script>
+
+</body>
+</html>
