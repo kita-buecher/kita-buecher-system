@@ -102,9 +102,6 @@ function displayBooks() {
             <strong>${book.titel}</strong><br>
             Nummer: ${book.nummer}<br>
             Kategorie: ${book.kategorie}<br>
-            Status: <span class="status-${book.verfuegbar ? "Yes" : "No"}">
-            ${book.verfuegbar ? "Verfügbar" : "Ausgeliehen"}
-            </span>
         `;
         bookList.appendChild(div);
     });
